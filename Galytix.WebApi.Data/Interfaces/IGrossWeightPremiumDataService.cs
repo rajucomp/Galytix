@@ -7,6 +7,8 @@ namespace Galytix.WebApi.Data.Interfaces
 {
     public interface IGrossWeightPremiumDataService
     {
-        List<GwpModel> GetCountryData(GrossWrittenPremiumRequest request);
+        List<GwpModel> GetCountryData(IEnumerable<GrossWeightPremiumModel> allCountryData, GrossWrittenPremiumRequest request);
+
+        IEnumerable<GrossWeightPremiumModel> GetAllCountryData();
     }
 }
