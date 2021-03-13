@@ -33,12 +33,12 @@ namespace Galytix.WebApi.Controllers
         [Produces("application/json")]
         public async Task<List<GwpModel>> GetAverageGrossWrittenPremium(GrossWrittenPremiumRequest request)
         {
-            List<GwpModel> res;
+            IEnumerable<GrossWeightPremiumModel> res;
 
             if (!_cache.TryGetValue("CountryData", out res))
             {
                 // Key not in cache, so get data.
-                res = await Task.FromResult(dataService.GetCountryData(request)).ConfigureAwait(false);
+                res = await Task.FromResult(dataService.GetAllCountryData()).ConfigureAwait(false);
 
                 // Set cache options.
                 var cacheEntryOptions = new MemoryCacheEntryOptions()
@@ -49,7 +49,9 @@ namespace Galytix.WebApi.Controllers
                 _cache.Set("CountryData", res, cacheEntryOptions);
             }
 
-            return res;
+
+            List<GwpModel> finalResult = await Task.FromResult(dataService.GetCountryData(res, request)).ConfigureAwait(false);
+            return finalResult;
 
         }
     }
