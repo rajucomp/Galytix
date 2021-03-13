@@ -12,8 +12,6 @@ namespace Galytix.WebApi.Data.DataServices
 {
     public class GwpDataService : IGrossWeightPremiumDataService
     {
-        private static readonly string filePath = @"C:\Users\guptraju\Downloads\Galytix.WebApi.Data\DataRepository\gwpByCountry.csv";
-
         private DataTable allCountryDataSet;
 
         public GwpDataService()
@@ -25,6 +23,7 @@ namespace Galytix.WebApi.Data.DataServices
         {
             try
             {
+                string filePath = Path.Combine(Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, "Galytix.WebApi.Data\\DataRepository\\gwpByCountry.csv");
                 using var stream = File.Open(filePath, FileMode.Open, FileAccess.Read);
                 using var reader = ExcelReaderFactory.CreateCsvReader(stream);
                 do
